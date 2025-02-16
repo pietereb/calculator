@@ -12,9 +12,17 @@ h1{
     font-size: 60px;
 }
 
-.buttons{
-    margin: 10px auto;
-    width: 800px;
+.display, .buttons{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    width: 800px;
+    margin: 10px auto;
+}
+
+.calculation{
+    font-size: 24px;
+}
+
+.answer{
+    font-size: 30px
 }

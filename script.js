@@ -1,48 +1,106 @@
 // Initialize parameters
 let firstVariable = 0;
 let secondVariable = 0;
-let operator = "none";
+let operator = undefined;
 let allowFirstVariable = true;
 let wipeFirstVariable = true;
+let result = 0;
+
+// Print values as output
+let calculation = document.querySelector(".calculation");
+let answer = document.querySelector(".answer");
 
 // Allow user to enter numerical values as first or second variable
+let pressNumber = function(press){
+    if (allowFirstVariable && wipeFirstVariable){
+        firstVariable = press;
+        operator = undefined;
+        wipeFirstVariable = false;
+        calculation.textContent = `${+firstVariable}`;
+        answer.textContent = ``;
+    } else if (allowFirstVariable && !wipeFirstVariable){
+        firstVariable = firstVariable + press;
+        operator = undefined;
+        calculation.textContent = `${+firstVariable}`;
+        answer.textContent = ``;
+    } else {
+        secondVariable = secondVariable + press;
+        calculation.textContent = `${+firstVariable} ${operator} ${+secondVariable}`;
+    };
+};
+
 let one = document.querySelector("#one");
 one.addEventListener('click', () => {
     if (allowFirstVariable && wipeFirstVariable){
-        firstVariable = "1"
-        operator = "none"
+        firstVariable = "1";
+        operator = undefined;
         wipeFirstVariable = false;
+        calculation.textContent = `${+firstVariable}`;
+        answer.textContent = ``;
     } else if (allowFirstVariable && !wipeFirstVariable){
         firstVariable = firstVariable + "1";
-        operator = "none";
+        operator = undefined;
+        calculation.textContent = `${+firstVariable}`;
+        answer.textContent = ``;
     } else {
         secondVariable = secondVariable + "1";
+        calculation.textContent = `${+firstVariable} ${operator} ${+secondVariable}`;
     };
-    console.log(`The firstVariable is ${+firstVariable} and the secondVariable is ${+secondVariable}.`)
 });
 
 let two = document.querySelector("#two");
 two.addEventListener('click', () => {
-    if (allowFirstVariable && wipeFirstVariable){
-        firstVariable = "2"
-        operator = "none"
-        wipeFirstVariable = false;
-    } else if (allowFirstVariable && !wipeFirstVariable){
-        firstVariable = firstVariable + "2";
-        operator = "none";
-    } else {
-        secondVariable = secondVariable + "2";
-    };
-    console.log(`The firstVariable is ${+firstVariable} and the secondVariable is ${+secondVariable}.`)
+    pressNumber("2");
 });
 
-// Define addition button and function
+let three = document.querySelector("#three");
+three.addEventListener('click', () => {
+    pressNumber("3");
+});
+
+let four = document.querySelector("#four");
+four.addEventListener('click', () => {
+    pressNumber("4");
+});
+
+let five = document.querySelector("#five");
+five.addEventListener('click', () => {
+    pressNumber("5");
+});
+
+let six = document.querySelector("#six");
+six.addEventListener('click', () => {
+    pressNumber("6");
+});
+
+let seven = document.querySelector("#seven");
+seven.addEventListener('click', () => {
+    pressNumber("7");
+});
+
+let eight = document.querySelector("#eight");
+eight.addEventListener('click', () => {
+    pressNumber("8");
+});
+
+let nine = document.querySelector("#nine");
+nine.addEventListener('click', () => {
+    pressNumber("9");
+});
+
+let zero = document.querySelector("#zero");
+zero.addEventListener('click', () => {
+    pressNumber("0");
+});
+
+// Define addition
 let add = document.querySelector("#add");
 add.addEventListener('click', () => {
-    operator = "addition";
+    operator = "+";
     allowFirstVariable = false;
     secondVariable = "";
-    console.log("You clicked addition.")
+    calculation.textContent = `${+firstVariable} ${operator}`;
+    answer.textContent = ``;
 });
 
 let performAddition = function(a, b){
@@ -50,24 +108,49 @@ let performAddition = function(a, b){
     return added;
 };
 
-// Print result
+// Define subtraction
+let subtract = document.querySelector("#subtract");
+subtract.addEventListener('click', () => {
+    operator = "-";
+    allowFirstVariable = false;
+    secondVariable = "";
+    calculation.textContent = `${+firstVariable} ${operator}`;
+    answer.textContent = ``;
+})
+
+let performSubtraction = function(a,b){
+    let subtracted = +a - +b;
+    return subtracted;
+};
+
+// Perform calculation
 let equals = document.querySelector("#equals");
 
 equals.addEventListener('click', () => {
-    if (operator === "none"){
-        let result = firstVariable;
-        firstVariable = result;
-        console.log(`There is no operator, so the result is just ${+result}.`)
+    if (operator === undefined){
+        result = firstVariable;
     };
 
-    if (operator === "addition" && secondVariable !== ""){
-        let result = performAddition(firstVariable, secondVariable);
-        allowFirstVariable = true;
-        console.log(`The firstVariable is ${+firstVariable}, the secondVariable is ${+secondVariable} and the operator is ${operator}, so the result is ${+result}.`);
+    if (secondVariable === ""){
+        operator = undefined;
+        calculation.textContent = `${+firstVariable}`;
+    }
+
+    if (operator === "+" && secondVariable !== ""){
+        result = performAddition(firstVariable, secondVariable);
+        calculation.textContent = `${+firstVariable} ${operator} ${+secondVariable}`;
         firstVariable = result;
     };
 
+    if (operator === "-" && secondVariable !== ""){
+        result = performSubtraction(firstVariable, secondVariable);
+        calculation.textContent = `${+firstVariable} ${operator} ${+secondVariable}`;
+        firstVariable = result;
+    };
+
+    allowFirstVariable = true;
     wipeFirstVariable = true;
+    answer.textContent = `${result}`;
 });
 
 // Erase all
@@ -77,8 +160,6 @@ clearAll.addEventListener('click', () => {
     secondVariable = 0;
     operator = "none";
     allowFirstVariable = true;
-    console.log(`firstVariable is ${firstVariable}, 
-        secondVarialbe is ${secondVariable}, 
-        operator is ${operator} 
-        and allowFirstVariable is ${allowFirstVariable}.`)
-})
+    calculation.textContent = ``;
+    answer.textContent = ``;
+});
